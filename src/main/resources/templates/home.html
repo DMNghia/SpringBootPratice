@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone Card Market</title>
+    <link rel="stylesheet" th:href="@{/assets/core/css/bootstrap.min.css}">
+    <script th:src="@{/assets/core/js/bootstrap.min.js}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{/assets/css/home.css}">
+
+    <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+                <ul class="navbar-nav mb-2 mb-lg-0 w-75 justify-content-around">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/don-hang}">Đơn hàng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/giao-dich}">Giao dịch</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/lien-he}">Liên hệ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/nap-tien}">Nạp tiền</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/dang-nhap}">Đăng nhập</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="main-header justify-content-center text-center mt-5">
+            <p class="h6">[KHU CHỢ THẺ CÀO]</p>
+            <p class="h3">MUA THẺ ĐIỆN THOẠI ONLINE</p>
+            <p class="h4">MUA THẺ ĐIỆN THOẠI, MUA THẺ CÀO ONLINE GIÁ HỢP LÝ</p>
+        </div>
+        <div class="main mt-5 mb-5">
+            <div class="supplier-list mt-5 w-100 justify-content-between" th:each="supplier: ${listSupplier}">
+                <div class="card col-4">
+                    <input class="input" type="radio" name="supplier" th:value="${supplier.getId()}">
+                    <span class="check"></span>
+                    <label class="label">
+                        <img th:src="${supplier.getImage()}" th:alt="${supplier.getName()}">
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer bg-dark bottom-0 position-relative container-fluid ">
+        <div class="pt-3 pb-3 text-center">
+            <p class="h5 text-light">Đỗ Minh Nghĩa</p>
+            <p class="h6 text-light">0344389201</p>
+            <a class="link-light" href="mailto:dmnghia1511@gmail.com">dmnghia1511@gmail.com</a>
+        </div>
+    </footer>
+</div>
+</body>
+</html>
