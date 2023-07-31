@@ -1,104 +1,215 @@
-.supplier-list {
-    position: relative;
+.radio-inputs {
     display: flex;
-    flex-direction: row;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
-.card {
-    position: relative;
-    width: 150px;
-    height: 100px;
-    background: #fff;
-    border-radius: 10px;
-    transition: all 0.3s;
+.radio-inputs > * {
+    margin: 6px;
 }
 
-.card:hover {
-    transform: scale(1.05);
+.radio-input:checked + .radio-tile {
+    border-color: #2260ff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    color: #2260ff;
 }
 
-.input {
-    position: relative;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
+.radio-input:checked + .radio-tile:before {
+    transform: scale(1);
+    opacity: 1;
+    background-color: #2260ff;
+    border-color: #2260ff;
+}
+
+.radio-input:checked + .radio-tile .radio-icon svg {
+    fill: #2260ff;
+}
+
+.radio-input:checked + .radio-tile .radio-label {
+    color: #2260ff;
+}
+
+.radio-input:focus + .radio-tile {
+    border-color: #2260ff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1), 0 0 0 4px #b5c9fc;
+}
+
+.radio-input:focus + .radio-tile:before {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.radio-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    min-height: 80px;
+    border-radius: 0.5rem;
+    border: 2px solid #b5bfd9;
+    background-color: #fff;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.15s ease;
     cursor: pointer;
-    appearance: none;
-    border: 1px solid #e5e5e5;
-    border-radius: 10px;
-    z-index: 10;
-    box-shadow: 1px 1px 10px #aaaaaa,
-    -1px -1px 10px #ffffff;
+    position: relative;
 }
 
-.input + .check::before {
+.radio-tile:before {
     content: "";
     position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 16px;
-    height: 16px;
-    border: 2px solid #d0d0d0;
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 2px solid #b5bfd9;
+    background-color: #fff;
     border-radius: 50%;
-    background-color: #E8E8E8;
+    top: 0.25rem;
+    left: 0.25rem;
+    opacity: 0;
+    transform: scale(0);
+    transition: 0.25s ease;
 }
 
-.input:checked + .check::after {
-    content: '';
+.radio-tile:hover {
+    border-color: #2260ff;
+}
+
+.radio-tile:hover:before {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.radio-icon svg {
+    width: 2rem;
+    height: 2rem;
+    fill: #494949;
+}
+
+.radio-label {
+    color: #707070;
+    transition: 0.375s ease;
+    text-align: center;
+    font-size: 13px;
+}
+
+.radio-input {
+    clip: rect(0 0 0 0);
+    -webkit-clip-path: inset(100%);
+    clip-path: inset(100%);
+    height: 1px;
+    overflow: hidden;
     position: absolute;
-    top: 19px;
-    right: 19px;
-    width: 12px;
-    height: 12px;
-    background-color: rgba(255,0,0,0.7);
-    border-radius: 50%;
+    white-space: nowrap;
+    width: 1px;
 }
 
-.input[value="standart"]:checked + .check::after {
-    background-color: rgba(255,165,0,0.7);
+.buyBtn {
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #1E90FFFF;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #1E90FFFF;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #1E90FFFF;
 }
 
-.input[value="premium"]:checked + .check::after {
-    background-color: rgba(0,128,0,0.7);
+.buyBtn:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #1E90FFFF;
 }
 
-.input[value="basic"]:checked {
-    border: 1.5px solid rgba(255,0,0,0.7);
+.buyBtn:active {
+    transform: scale(0.9);
 }
 
-.input[value="standart"]:checked {
-    border: 1.5px solid rgba(255,165,0,0.7);
+.addBtn {
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #32c417;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #32c417;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #32c417;
 }
 
-.input[value="premium"]:checked {
-    border: 1.5px solid rgba(0,128,0,0.7);
+.addBtn:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #32c417;
 }
 
-.label {
-    color: #323232;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
+.addBtn:active {
+    transform: scale(0.9);
 }
 
-.label .title {
-    margin: 15px 0 0 15px;
-    font-weight: 900;
-    font-size: 15px;
-    letter-spacing: 1.5px;
+.cancelBtn {
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: #ebde25;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid #ebde25;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0 #ebde25;
 }
 
-.label .price {
-    margin: 20px 0 0 15px;
-    font-size: 20px;
-    font-weight: 900;
+.cancelBtn:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #ebde25;
 }
 
-.label .span {
-    color: gray;
-    font-weight: 700;
-    font-size: 15px;
+.cancelBtn:active {
+    transform: scale(0.9);
+}
+
+
+#emailValue {
+    height: 35px;
+    line-height: 28px;
+    padding: 0 1rem;
+    padding-left: 0.5rem;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    outline: none;
+    background-color: #f3f3f4;
+    color: #0d0c22;
+    transition: .3s ease;
+}
+
+#emailValue::placeholder {
+    color: #9e9ea7;
+}
+
+#emailValue:focus, input:hover {
+    outline: none;
+    border-color: #1E90FFFF;
+    background-color: #fff;
+    box-shadow: 0 0 0 1px #3299f7;
 }

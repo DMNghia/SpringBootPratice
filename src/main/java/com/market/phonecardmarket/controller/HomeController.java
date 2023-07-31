@@ -23,7 +23,7 @@ public class HomeController {
     }
 
 
-    @GetMapping("/home")
+    @GetMapping(value = {"/", "/home"}, name = "home")
     public ModelAndView home() {
         ModelAndView mav = new ModelAndView("/home");
         List<SupplierDTO> listSupplier = supplierService.getAllSupplier();

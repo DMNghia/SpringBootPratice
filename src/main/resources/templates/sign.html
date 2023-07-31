@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,25 +7,25 @@
       src="https://kit.fontawesome.com/64d58efce2.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="style.css" />
-    <title>Sign in & Sign up Form</title>
+    <link rel="stylesheet" th:href="@{/assets/css/sign.css}" />
+    <title>Đăng nhập - Đăng ký</title>
   </head>
   <body>
     <div class="container">
       <div class="forms-container">
         <div class="signin-signup">
-          <form action="#" class="sign-in-form">
-            <h2 class="title">Sign in</h2>
+          <form th:action="@{/dang-nhap}" method="post" class="sign-in-form" th:object="${userDto}">
+            <h2 class="title">Đăng nhập</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" th:field="*{email}" name="email" placeholder="Email" />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" th:field="*{password}" name="password" placeholder="Mật khẩu" />
             </div>
             <input type="submit" value="Login" class="btn solid" />
-            <p class="social-text">Or Sign in with social platforms</p>
+            <p class="social-text">Hoặc đăng nhập bằng các phương thức khác</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -41,11 +41,11 @@
               </a>
             </div>
           </form>
-          <form action="#" class="sign-up-form">
-            <h2 class="title">Sign up</h2>
+          <form th:action="@{dang-ky}" method="post" class="sign-up-form">
+            <h2 class="title">Đăng ký</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="Username" />
+              <input type="text" name="username" placeholder="Tên" />
             </div>
             <div class="input-field">
               <i class="fas fa-envelope"></i>
@@ -53,10 +53,10 @@
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password" placeholder="Mật khẩu" />
             </div>
             <input type="submit" class="btn" value="Sign up" />
-            <p class="social-text">Or Sign up with social platforms</p>
+            <p class="social-text">Hoặc đăng ký bằng các phương thức khác</p>
             <div class="social-media">
               <a href="#" class="social-icon">
                 <i class="fab fa-facebook-f"></i>
@@ -78,33 +78,31 @@
       <div class="panels-container">
         <div class="panel left-panel">
           <div class="content">
-            <h3>New here ?</h3>
+            <h3>Là người mới ?</h3>
             <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Debitis,
-              ex ratione. Aliquid!
+              Đăng ký và trải nghiệm những dịch vụ mới mẻ
             </p>
             <button class="btn transparent" id="sign-up-btn">
-              Sign up
+              Đăng ký
             </button>
           </div>
-          <img src="img/log.svg" class="image" alt="" />
+          <img th:src="@{/assets/images/sign/log.svg}" class="image" alt="Đăng nhập" />
         </div>
         <div class="panel right-panel">
           <div class="content">
-            <h3>One of us ?</h3>
+            <h3>Là một phần của chúng tôi ?</h3>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum
-              laboriosam ad deleniti.
+              Bạn có thể sử dụng dịch vụ cũng như tiện ích mà chúng tôi mang lại.
             </p>
             <button class="btn transparent" id="sign-in-btn">
-              Sign in
+              Đăng nhập
             </button>
           </div>
-          <img src="img/register.svg" class="image" alt="" />
+          <img th:src="@{/assets/images/sign/register.svg}" class="image" alt="Đăng ký" />
         </div>
       </div>
     </div>
 
-    <script src="app.js"></script>
+    <script th:src="@{/assets/js/sign.js}"></script>
   </body>
 </html>

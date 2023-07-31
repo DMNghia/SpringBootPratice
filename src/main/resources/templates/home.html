@@ -6,6 +6,7 @@
     <title>Phone Card Market</title>
     <link rel="stylesheet" th:href="@{/assets/core/css/bootstrap.min.css}">
     <script th:src="@{/assets/core/js/bootstrap.min.js}"></script>
+    <script src='https://kit.fontawesome.com/64d58efce2.js' crossorigin='anonymous'></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -31,22 +32,30 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
                 <ul class="navbar-nav mb-2 mb-lg-0 w-75 justify-content-around">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" th:href="@{/}">Trang chủ</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/}"><span class="h5">Trang chủ</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/don-hang}">Đơn hàng</a>
+                        <a class="nav-link" th:href="@{/don-hang}"><span class="h5">Đơn hàng</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/giao-dich}">Giao dịch</a>
+                        <a class="nav-link" th:href="@{/giao-dich}"><span class="h5">Giao dịch</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/lien-he}">Liên hệ</a>
+                        <a class="nav-link" th:href="@{/lien-he}"><span class="h5">Liên hệ</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/nap-tien}">Nạp tiền</a>
+                        <a class="nav-link" th:href="@{/nap-tien}"><span class="h5">Nạp tiền</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/dang-nhap}">Đăng nhập</a>
+                    <li class="nav-item" th:if="${session.user == null}">
+                        <a class="nav-link" th:href="@{/dang-nhap}"><span class="h5">Đăng nhập</span></a>
+                    </li>
+                    <li class="nav-item dropdown" th:if="${session.user != null}">
+                        <a id="dropdownMenuButton" class="nav-link" data-bs-toggle="dropdown">
+                            <span class="h5"><i class='fas fa-user-circle'></i></span></a>
+                        <ul class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
+                            <li><a class="dropdown-item text-light" th:href="@{/thong-tin}">Thông tin cá nhân</a></li>
+                            <li><a class="dropdown-item text-light" th:href="@{/dang-nhap}">Đăng xuất</a></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
@@ -59,14 +68,99 @@
             <p class="h4">MUA THẺ ĐIỆN THOẠI, MUA THẺ CÀO ONLINE GIÁ HỢP LÝ</p>
         </div>
         <div class="main mt-5 mb-5">
-            <div class="supplier-list mt-5 w-100 justify-content-between" th:each="supplier: ${listSupplier}">
-                <div class="card col-4">
-                    <input class="input" type="radio" name="supplier" th:value="${supplier.getId()}">
-                    <span class="check"></span>
-                    <label class="label">
-                        <img th:src="${supplier.getImage()}" th:alt="${supplier.getName()}">
+            <div id="supplier-zone" class="supplier-list mt-5 mb-5 w-100">
+                <div class="radio-inputs justify-content-between">
+                    <label class="" style="width: 23%;" th:each="supplier : ${listSupplier}">
+                        <input class="radio-input" type="radio" name="supplier" th:value="${supplier.getId()}"
+                               th:checked="${supplier.getId() == 1 ? 'checked' : null}">
+                        <span class="radio-tile w-100 pt-3 pb-3" style="height: 130px;"
+                              th:onclick="getData(${supplier.getId()})">
+                            <span class="radio-icon">
+                                <img style="max-width: 98%;height: auto;object-fit: cover"
+                                     th:src="${supplier.getImage()}" th:alt="${supplier.getName()}"/>
+                            </span>
+                        </span>
                     </label>
                 </div>
+            </div>
+            <div class="content mb-5 w-100 d-flex justify-content-around" style="margin-top: 150px">
+                <div id="price-zone" class="col-5">
+                    <div class="row w-100 justify-content-around">
+                        <label class="col-6 mb-4" th:each="product : ${listProduct}">
+                            <input class="radio-input" type="radio" name="price" th:value="${product.getId()}"
+                                   th:checked="${product.getId() == 1 ? 'checked' : null}">
+                            <span class="radio-tile w-100 pt-4 pb-4 mb-3">
+                            <span class="radio-icon price-value" th:text="${product.getPrice()}"></span>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+                <div id="productInfo" class="col-5 border-5 p-3 d-none" style="border-radius: 5px;box-shadow: 0px 0px 10px gray">
+                    <div class="m-0 pb-3 pt-3 top-0 text-center h-auto"
+                         style="background-color: dodgerblue;border-top-left-radius: 5px;border-top-right-radius: 5px">
+                        <h3 class="text-light">Thông tin đơn hàng</h3>
+                    </div>
+                    <div class="w-100 mt-4">
+                        <div class="row p-2">
+                            <label class="titleCate col-5" style="font-weight: bold;font-size: 1.2em;">Nhà phát
+                                hành: </label><span id="supplierValue" class="value col-7">Viettel</span>
+                        </div>
+                        <div class="row p-2">
+                            <label class="titleCate col-4" style="font-weight: bold;font-size: 1.2em;">Mệnh
+                                giá: </label><span id="priceValue" class="value col-8">10000</span>
+                        </div>
+                        <div class="row p-2">
+                            <label class="titleCate col-4" style="font-weight: bold;font-size: 1.2em;">Số
+                                lượng: </label><span id="quantityValue" class="value col-8">1</span>
+                        </div>
+                        <div class="row p-2 justify-content-between">
+                            <label class="titleCate col-4"
+                                   style="font-weight: bold;font-size: 1.2em;">Email nhận: </label><input
+                                placeholder="Email"
+                                type="text"
+                                id="emailValue"
+                                class="col-8" th:value="${session.user != null ? session.user.getEmail() : ''}">
+                        </div>
+                        <div class="row mt-3 mb-3 justify-content-around">
+                            <button class="btn-primary btn-outline-primary col-4 p-2 buyBtn">Thanh toán</button>
+                            <button class="btn-warning btn-outline-warning col-4 p-2 cancelBtn">Hủy</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5 mt-5">
+                <div class="quantity-div d-flex flex-wrap" style="margin-left: 10%;width: 90%;">
+                    <label style="font-size: 18px;font-weight: 500;margin-right: 25px;line-height: 30px;">Số
+                        lượng sản phẩm </label>
+                    <span class="down_number" style="cursor: s-resize;">
+                        <svg width="40" height="40" viewBox="0 0 40 40"
+                             fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="20" cy="20" r="20" fill="#1CA799"></circle>
+                                                <line x1="10" y1="19" x2="31" y2="19" stroke="white"
+                                                      stroke-width="2"></line>
+                        </svg>
+                    </span>
+                    <input style="width: 80px;margin: 0 20px;height: 40px;border-radius: 5px;border: 0.5px solid #000000;"
+                           type="number" min="1" max="1000" id="ctrlsoluongthe"
+                           name="quantity"
+                           value="1"
+                           class="input_card text-center" placeholder="Số lượng" title="Số lượng thẻ"
+                    >
+                    <span class="up_number" style="cursor: n-resize;">
+                        <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <circle cx="20" cy="20" r="20" fill="#1CA799"></circle>
+                                                <line x1="10" y1="20" x2="31" y2="20" stroke="white"
+                                                      stroke-width="2"></line>
+                                                <line x1="20" y1="30" x2="20" y2="9" stroke="white"
+                                                      stroke-width="2"></line>
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <button id="buyNow" class="btn-primary btn-outline-primary col-2 p-3 buyBtn">Mua ngay</button>
+                <button class="btn-primary btn-outline-success col-2 p-3 addBtn">Thêm vào giỏ hàng</button>
             </div>
         </div>
     </div>
@@ -78,5 +172,46 @@
         </div>
     </footer>
 </div>
+<script>
+    $("#buyNow").click(() => {
+        $("#productInfo").removeClass("d-none");
+    });
+
+    $(".cancelBtn").click(() => {
+        $("#productInfo").addClass("d-none");
+    });
+
+    $(".price-value").each(function () {
+        $(this).text(parseInt($(this).text()).toLocaleString() + " đ");
+    });
+
+    $("input[name='price']").change(function () {
+        $("#priceValue").text($("input[name='price']:checked").parent().find(".radio-icon").text());
+    });
+
+    $("input[name='supplier']").change(() => {
+       $("#supplierValue").text($("input[name='supplier']:checked").parent().find("img").attr("alt"));
+    });
+
+    $("input[name='quantity']").on('input', () => {
+       $("#quantityValue").text($('#ctrlsoluongthe').val());
+    });
+
+    const quantityInput = document.getElementById("ctrlsoluongthe");
+    var quantityDiv = document.querySelector(".quantity-div");
+    var upQuantity = quantityDiv.querySelector(".up_number");
+    var downQuantity = quantityDiv.querySelector(".down_number");
+
+    upQuantity.addEventListener('click', function () {
+        quantityInput.value = (parseInt(quantityInput.value) + 1);
+        $("#quantityValue").text($('#ctrlsoluongthe').val());
+    });
+    downQuantity.addEventListener('click', function () {
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = (parseInt(quantityInput.value) - 1);
+            $("#quantityValue").text($('#ctrlsoluongthe').val());
+        }
+    });
+</script>
 </body>
 </html>

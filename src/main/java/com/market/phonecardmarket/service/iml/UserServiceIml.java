@@ -55,6 +55,13 @@ public class UserServiceIml implements IUserService {
 
     @Override
     public UserDTO loginUser(UserDTO userDTO) {
+        Optional<User> user = userRepository.findByEmail(userDTO.getEmail());
+        if (user.isPresent()) {
+            boolean checkLogin = passwordEncoder.matches(userDTO.getPassword(), user.get().getPassword());
+            if (checkLogin) {
+                return userMapper.entityToDTO(user.get());
+            }
+        }
         return null;
     }
 

@@ -1,9 +1,7 @@
 package com.market.phonecardmarket.mapper;
 
 import com.market.phonecardmarket.dto.ProductDTO;
-import com.market.phonecardmarket.dto.SupplierDTO;
 import com.market.phonecardmarket.entity.Product;
-import com.market.phonecardmarket.entity.Supplier;
 
 public class ProductMapper {
     public ProductDTO entityToDTO(Product product) {
